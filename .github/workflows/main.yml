@@ -36,14 +36,3 @@ jobs:
     - run: |
         docker image build . --file packages/backend/Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage:${{ github.sha }}
         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage:${{ github.sha }}
- 
-    - name: 'Az CLI login'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-        allow-no-subscriptions: true
-
-    - uses: azure/webapps-deploy@v2
-      with:
-        app-name: '${{ secrets.APP_NAME }}'
-        images: ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage:${{ github.sha }}
